@@ -1,0 +1,28 @@
+import org.gradle.internal.os.OperatingSystem;
+import java.io.File;
+
+pluginManagement {
+    repositories {
+        mavenLocal();
+        gradlePluginPortal();
+        String frcYear = "2022";
+        File frcHome;
+        if (OperatingSystem.current().isWindows()) {
+            String publicFolder = System.getenv("PUBLIC");
+            if (publicFolder == null) {
+                publicFolder = "C:\\Users\\Public";
+            }
+            File homeRoot = new File(publicFolder, "wpilib");
+            frcHome = new File(homeRoot, frcYear);
+        } else {
+            String userFolder = System.getProperty("user.home");
+            File homeRoot = new File(userFolder, "wpilib");
+            frcHome = new File(homeRoot, frcYear);
+        }
+        File frcHomeMaven = new File(frcHome, "maven");
+        maven {
+            name("frcHome");
+            url(frcHomeMaven);
+        }
+    }
+}
